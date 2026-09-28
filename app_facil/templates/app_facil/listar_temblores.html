@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base de Datos — Temblores</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+
+    <div class="contenedor">
+        <h1>Base de Datos</h1>
+        <p class="subtitulo">Registro completo de temblores</p>
+
+        <div class="tabla-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Magnitud</th>
+                        <th>Profundidad</th>
+                        <th>Lugar</th>
+                        <th>Área</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for temblor in temblores %}
+                    <tr>
+                        <td>#{{ temblor.id }}</td>
+                        <td><strong>{{ temblor.nombre }}</strong></td>
+                        <td>
+                            {% if temblor.magnitud < 3 %}
+                                <span class="badge-magnitud mag-baja">{{ temblor.magnitud }}</span>
+                            {% elif temblor.magnitud < 5 %}
+                                <span class="badge-magnitud mag-media">{{ temblor.magnitud }}</span>
+                            {% else %}
+                                <span class="badge-magnitud mag-alta">{{ temblor.magnitud }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ temblor.profundidad }} km</td>
+                        <td>{{ temblor.lugar }}</td>
+                        <td>{{ temblor.area }}</td>
+                        <td>{{ temblor.fecha }}</td>
+                        <td>{{ temblor.hora }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="tabla-vacia">
+                            📭 No hay temblores registrados aún
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="acciones">
+            <a href="/temblor/" class="btn-base">📝 Ir al Formulario</a>
+            <a href="/bienvenida/" class="btn-base">🏠 Volver al Inicio</a>
+        </div>
+    </div>
+
+</body>
+</html>

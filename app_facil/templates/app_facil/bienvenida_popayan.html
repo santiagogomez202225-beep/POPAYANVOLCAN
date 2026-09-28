@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio — Sistema Sísmico Popayán</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+
+    <div class="contenedor">
+        <div class="hero">
+            <span class="hero-icon">🌋</span>
+            <h1>Popayán</h1>
+            <p class="hero-subtitulo">
+                Sistema de monitoreo y registro sísmico para la ciudad de Popayán, Colombia.
+                Gestiona, consulta y analiza eventos sísmicos de manera profesional.
+            </p>
+
+            <div class="acciones">
+                <a href="/temblor/" class="btn">📋 Ir al Formulario</a>
+                <a href="/listar/" class="btn-base">🗄️ Ver Base de Datos</a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-valor">24/7</div>
+                    <div class="stat-label">Monitoreo</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-valor">100%</div>
+                    <div class="stat-label">Precisión</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-valor">📍</div>
+                    <div class="stat-label">Popayán</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

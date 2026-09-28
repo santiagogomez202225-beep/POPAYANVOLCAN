@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe — {{ temblor.nombre }}</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+
+    <div class="contenedor">
+        <h1>Informe Sísmico</h1>
+        <p class="subtitulo">Detalle completo del evento registrado</p>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-label">Nombre</div>
+                <div class="info-value">{{ temblor.nombre }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Magnitud</div>
+                <div class="info-value destacado">{{ temblor.magnitud }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Profundidad</div>
+                <div class="info-value">{{ temblor.profundidad }} km</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Rango</div>
+                <div class="info-value">{{ temblor.rango }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Lugar</div>
+                <div class="info-value">{{ temblor.lugar }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Área</div>
+                <div class="info-value">{{ temblor.area }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Fecha</div>
+                <div class="info-value">{{ temblor.fecha }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Hora</div>
+                <div class="info-value">{{ temblor.hora }}</div>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <a href="/temblor/" class="btn-base">📝 Nuevo Registro</a>
+            <a href="/listar/" class="btn-base">🗄️ Ver Base Completa</a>
+        </div>
+    </div>
+
+</body>
+</html>

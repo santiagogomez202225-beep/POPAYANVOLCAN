@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Temblores — Popayán</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+
+    <div class="contenedor">
+        <h1>Registro de Temblores</h1>
+        <p class="subtitulo">📍 Popayán, Colombia — Sistema de Monitoreo Sísmico</p>
+
+        <h2>📝 Nuevo Registro</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="campo">
+                <label>Nombre del Temblor</label>
+                <input type="text" name="nombre" placeholder="Ej: Temblor Popayán Centro" required>
+            </div>
+            <div class="campo">
+                <label>Magnitud</label>
+                <input type="number" step="0.1" name="magnitud" placeholder="Ej: 4.5" required>
+            </div>
+            <div class="campo">
+                <label>Profundidad (km)</label>
+                <input type="number" step="0.1" name="profundidad" placeholder="Ej: 30.5" required>
+            </div>
+            <div class="campo">
+                <label>Rango</label>
+                <input type="text" name="rango" placeholder="Ej: Superficial" required>
+            </div>
+            <div class="campo">
+                <label>Lugar</label>
+                <input type="text" name="lugar" placeholder="Ej: Popayán" required>
+            </div>
+            <div class="campo">
+                <label>Área</label>
+                <input type="text" name="area" placeholder="Ej: Bordo" required>
+            </div>
+            <div class="campo">
+                <label>Fecha</label>
+                <input type="date" name="fecha" required>
+            </div>
+            <div class="campo">
+                <label>Hora</label>
+                <input type="time" name="hora" required>
+            </div>
+            <div style="text-align: center;">
+                <button type="submit" class="btn">📊 Guardar Registro</button>
+            </div>
+        </form>
+
+        <div class="separador"></div>
+
+        <h2>🔍 Buscar Registros</h2>
+        <div class="buscador" id="resultados">
+            <form method="GET" action="{% url 'formulario_temblor' %}">
+                <input type="text" name="q"
+                       value="{{ query|default:'' }}"
+                       placeholder="Buscar por nombre, lugar, área o magnitud...">
+                <button type="submit">🔍 Buscar</button>
+                {% if query %}
+                    <a href="{% url 'formulario_temblor' %}" class="btn-limpiar">✖ Limpiar</a>
+                {% endif %}
+            </form>
+
+            {% if query %}
+            <div class="aviso-busqueda">
+                🔎 Mostrando resultados para: <strong>"{{ query }}"</strong>
+                ({{ temblores|length }} encontrado{{ temblores|length|pluralize:"s" }})
+            </div>
+            {% endif %}
+        </div>
+
+        <h2>🗄️ Datos Registrados</h2>
+        <div class="tabla-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Magnitud</th>
+                        <th>Profundidad</th>
+                        <th>Lugar</th>
+                        <th>Área</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Informe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for temblor in temblores %}
+                    <tr>
+                        <td>#{{ temblor.id }}</td>
+                        <td><strong>{{ temblor.nombre }}</strong></td>
+                        <td>
+                            {% if temblor.magnitud < 3 %}
+                                <span class="badge-magnitud mag-baja">{{ temblor.magnitud }}</span>
+                            {% elif temblor.magnitud < 5 %}
+                                <span class="badge-magnitud mag-media">{{ temblor.magnitud }}</span>
+                            {% else %}
+                                <span class="badge-magnitud mag-alta">{{ temblor.magnitud }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ temblor.profundidad }} km</td>
+                        <td>{{ temblor.lugar }}</td>
+                        <td>{{ temblor.area }}</td>
+                        <td>{{ temblor.fecha }}</td>
+                        <td>{{ temblor.hora }}</td>
+                        <td>
+                            <a href="{% url 'informe_temblor' temblor.id %}" class="btn-informe">📊 Ver</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="9" class="tabla-vacia">
+                            {% if query %}
+                                ❌ No se encontraron resultados para "<strong>{{ query }}</strong>"
+                            {% else %}
+                                📭 No hay temblores registrados aún
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="acciones">
+            <a href="/listar/" class="btn-base">🗄️ Ver Base Completa</a>
+            <a href="/bienvenida/" class="btn-base">🏠 Volver al Inicio</a>
+        </div>
+    </div>
+
+    <script>
+        {% if query %}
+        document.getElementById('resultados').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+        {% endif %}
+    </script>
+
+</body>
+</html>
